@@ -96,36 +96,11 @@ Received: ${new Date().toLocaleString()}
       `,
     };
 
-    // Send auto-reply to the contact
-    const autoReplyOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: 'Thank You for Contacting Me - Abdelrahman Ahmed Khalifa',
-      html: createAutoReplyTemplate(contactEmailData),
-      text: `
-Thank you for contacting me!
-
-Dear ${name},
-
-Thank you for reaching out through AbdelrahmanKhalifa.com. I've received your message and will respond within 24-48 hours during business days.
-
-Best regards,
-Abdelrahman Ahmed Khalifa
-Web Developer & Full-Stack Engineer
-
-This is an automated response. For urgent matters, contact me at: abdelrahmanahmedkhalifa99@gmail.com
-      `,
-    };
-
-    // Send both emails
-    const [contactInfo, autoReplyInfo] = await Promise.all([
-      transporter.sendMail(contactEmailOptions),
-      transporter.sendMail(autoReplyOptions),
-    ]);
+    // Send only notification email to you
+    const contactInfo = await transporter.sendMail(contactEmailOptions);
 
     console.log('Contact form submitted successfully:', {
       contactMessageId: contactInfo.messageId,
-      autoReplyMessageId: autoReplyInfo.messageId,
       from: name,
       email: email,
     });
