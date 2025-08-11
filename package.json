@@ -1,0 +1,37 @@
+{
+  "name": "email-api",
+  "version": "1.0.0",
+  "description": "Professional Email API with HTML email templates for contact forms",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "echo 'No build step required for Node.js API'",
+    "vercel-build": "echo 'Vercel build completed'"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "nodemailer",
+    "email",
+    "api",
+    "vercel",
+    "html-templates",
+    "contact-form"
+  ],
+  "author": "Abdelrahman Ahmed Khalifa",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
