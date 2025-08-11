@@ -15,7 +15,11 @@ app.use(
   cors({
     origin:
       process.env.NODE_ENV === 'production'
-        ? ['https://abdelrahmankhalifa.com', 'https://abdelrahmankhalifa.com']
+        ? [
+            'https://abdelrahmankhalifa.com',
+            'https://www.abdelrahmankhalifa.com',
+            'https://backend-email-one.vercel.app',
+          ]
         : [
             'http://localhost:3000',
             'http://localhost:3001',
