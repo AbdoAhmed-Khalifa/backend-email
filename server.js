@@ -144,7 +144,7 @@ app.post('/api/send-email', async (req, res) => {
       to: to,
       subject: subject,
       text: text,
-      html: createAutoReplyTemplate({name}),
+      html: createAutoReplyTemplate(contactEmailData),
     };
 
     const info = await transporter.sendMail(mailOptions);
