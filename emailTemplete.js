@@ -259,7 +259,7 @@ const createAutoReplyTemplate = data => {
                   <div class="whatsapp-section">
                       <h3>📱 Need Immediate Contact?</h3>
                       <p>If you need to reach me urgently, feel free to contact me on WhatsApp:</p>
-                      <a href="https://wa.me/YOUR_WHATSAPP_NUMBER" class="whatsapp-btn">
+                      <a href="https://wa.me/201065058121" class="whatsapp-btn">
                           💬 WhatsApp Me
                       </a>
                   </div>
