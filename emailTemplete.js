@@ -14,7 +14,7 @@ const createContactEmailTemplate = data => {
                   color: #1A1A1A;
                   background-color: #E4E4E6;
                   margin: 0;
-                  padding: 20px;
+                  padding: 15px;
               }
               .container {
                   max-width: 600px;
