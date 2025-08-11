@@ -81,26 +81,53 @@ app.post('/api/contact', async (req, res) => {
       to: process.env.EMAIL_USER, // Send to yourself
       subject: `New Contact: ${subject} - From ${name}`,
       html: createContactEmailTemplate(contactEmailData),
-      text: `
-New Contact Message
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone || 'Not provided'}
-Subject: ${subject}
-
-Message:
-${message}
-
-Received: ${new Date().toLocaleString()}
-      `,
+      text: `New contact from ${name}`,
     };
 
     // Send notification email to you
     const contactInfo = await transporter.sendMail(contactEmailOptions);
 
+    // Send auto-reply email to the client
+    const autoReplyData = {
+      name: name,
+      email: email,
+      phone: phone || 'Not provided',
+      subject: subject,
+      message: message,
+    };
+
+    const autoReplyOptions = {
+      from: process.env.EMAIL_USER,
+      to: email, // Send to the client
+      subject: `Thank you for your message - ${subject}`,
+      html: createAutoReplyTemplate(autoReplyData),
+      text: `
+Thank you for your message!
+
+Hi ${name},
+
+Thank you for reaching out to me. I have received your message and I will contact you soon.
+
+I appreciate your interest and will get back to you as quickly as possible.
+
+Best regards,
+Abdelrahman Ahmed Khalifa
+Web Developer & Full-Stack Engineer
+abdelrahmanahmedkhalifa99@gmail.com
+abdelrahmankhalifa.com
+
+---
+Your original message:
+Subject: ${subject}
+Message: ${message}
+      `,
+    };
+
+    const autoReplyInfo = await transporter.sendMail(autoReplyOptions);
+
     console.log('Contact form submitted successfully:', {
       contactMessageId: contactInfo.messageId,
+      autoReplyMessageId: autoReplyInfo.messageId,
       from: name,
       email: email,
     });
@@ -109,6 +136,7 @@ Received: ${new Date().toLocaleString()}
       success: true,
       message: 'Thank you for your message! I will get back to you soon.',
       messageId: contactInfo.messageId,
+      autoReplyMessageId: autoReplyInfo.messageId,
     });
   } catch (error) {
     console.error('Error processing contact form:', error);
