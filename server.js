@@ -81,12 +81,12 @@ app.post('/api/contact', async (req, res) => {
       to: process.env.EMAIL_USER, // Send to yourself
       subject: `New Contact: ${subject} - From ${name}`,
       html: createContactEmailTemplate(contactEmailData),
+      text: `New contact from ${name} - ${subject}`,
     };
 
     // Send notification email to you
     const contactInfo = await transporter.sendMail(contactEmailOptions);
 
-    // Send auto-reply email to the client
     const autoReplyData = {
       name: name,
       email: email,
@@ -97,9 +97,10 @@ app.post('/api/contact', async (req, res) => {
 
     const autoReplyOptions = {
       from: process.env.EMAIL_USER,
-      to: email, // Send to the client
-      subject: `Thank you for your message - ${subject}`,
+      to: email,
+      subject: `Thank you for your message!`,
       html: createAutoReplyTemplate(autoReplyData),
+      text: `Thank you for your message, ${name}! I will get back to you soon.`,
     };
 
     const autoReplyInfo = await transporter.sendMail(autoReplyOptions);
@@ -128,62 +129,6 @@ app.post('/api/contact', async (req, res) => {
           : 'Internal server error',
     });
   }
-});
-
-// Generic email API route (for other uses)
-app.post('/api/send-email', async (req, res) => {
-  try {
-    const { to, subject, text, html } = req.body;
-
-    // Validate required fields
-    if (!to || !subject || (!text && !html)) {
-      return res.status(400).json({
-        success: false,
-        message:
-          'Missing required fields: to, subject, and either text or html content',
-      });
-    }
-
-    const transporter = createTransporter();
-
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: to,
-      subject: subject,
-      text: text,
-      html: html || text,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-
-    console.log('Email sent successfully:', info.messageId);
-
-    res.status(200).json({
-      success: true,
-      message: 'Email sent successfully',
-      messageId: info.messageId,
-    });
-  } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Failed to send email',
-      error:
-        process.env.NODE_ENV === 'development'
-          ? error.message
-          : 'Internal server error',
-    });
-  }
-});
-
-// Health check route
-app.get('/api/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Email API is running',
-    timestamp: new Date().toISOString(),
-    environment: process.env.NODE_ENV || 'development',
-  });
 });
 
 // Root route
