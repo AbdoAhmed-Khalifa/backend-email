@@ -81,7 +81,6 @@ app.post('/api/contact', async (req, res) => {
       to: process.env.EMAIL_USER, // Send to yourself
       subject: `New Contact: ${subject} - From ${name}`,
       html: createContactEmailTemplate(contactEmailData),
-      text: `New contact from ${name}`,
     };
 
     // Send notification email to you
@@ -101,26 +100,6 @@ app.post('/api/contact', async (req, res) => {
       to: email, // Send to the client
       subject: `Thank you for your message - ${subject}`,
       html: createAutoReplyTemplate(autoReplyData),
-      text: `
-Thank you for your message!
-
-Hi ${name},
-
-Thank you for reaching out to me. I have received your message and I will contact you soon.
-
-I appreciate your interest and will get back to you as quickly as possible.
-
-Best regards,
-Abdelrahman Ahmed Khalifa
-Web Developer & Full-Stack Engineer
-abdelrahmanahmedkhalifa99@gmail.com
-abdelrahmankhalifa.com
-
----
-Your original message:
-Subject: ${subject}
-Message: ${message}
-      `,
     };
 
     const autoReplyInfo = await transporter.sendMail(autoReplyOptions);
