@@ -25,9 +25,17 @@ app.use(
             'http://localhost:3001',
             'http://localhost:5173',
           ],
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
+    optionsSuccessStatus: 200,
+    preflightContinue: false,
   })
 );
+
+// Handle preflight requests
+app.options('*', cors());
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
